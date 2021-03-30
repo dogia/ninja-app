@@ -8,27 +8,38 @@
                 <hr>
                 <div class="form-group">
                     <label for="email"><i class="fi-sr-users"></i> Cuenta</label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="email" class="form-control" id="email" name="account" [(ngModel)]="account" (blur)="validate('account')">
+                    <ngb-alert *ngIf="invalidAccount" class="error-form" [dismissible]="false">Formato de cuenta incorrecto, debe ser correo electrónico</ngb-alert>
                 </div>
                 <div class="form-group">
-                    <label for="password"><i class="fi-sr-key"></i> Contraseña</label><input type="password" class="form-control" id="password">
-                    <a href="forgot-password">¿Olvidaste tu contraseña?</a>
+                    <label for="password"><i class="fi-sr-key"></i> Contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" (blur)="validate('password')" aria-describedby="showHidePassword">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="showHidePassword" (click)="showHidePassword()" style="cursor: pointer;">
+                                <i class="fi-sr-eye" *ngIf="!showPassword"></i>
+                                <i class="fi-sr-eye-crossed" *ngIf="showPassword"></i>
+                            </span>
+                          </div>
+                    </div>
+                    <ngb-alert *ngIf="invalidPassword" class="error-form" [dismissible]="false">Formato de contraseña incorrecto, longitud incorrecta</ngb-alert>
+                    <a [routerLink]="['/auth/forgot-password']">¿Olvidaste tu contraseña?</a>
                 </div>
                 <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Mantener conexión</label>
+                    <input type="checkbox" class="form-check-input" id="keepAlive" [checked]="keepAlive" (change)="(keepAlive = !keepAlive)">
+                    <label class="form-check-label" for="keepAlive">Mantener conexión</label>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <div class="center">
-                            <button type="submit" class="btn btn-primary">Inicia sesión</button>
+                            <div class="btn btn-success" routerLink="register" [routerLink]="['/auth/register']">Crea tu
+                                cuenta</div>
                         </div>
                     </div>
-    
                     <div class="col-sm-12 col-md-6">
                         <div class="center">
-                            <div class="btn btn-success" routerLink="register" [routerLink]="['/auth/register']">Crea tu cuenta</div>
+                            <button type="submit" class="btn btn-primary">Inicia sesión</button>
                         </div>
                     </div>
                 </div>

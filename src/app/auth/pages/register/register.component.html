@@ -1,34 +1,55 @@
 <div class="content">
     <div class="row">
         <div class="col-lg-6 col-md-8 offset-lg-3 offset-md-2 login-panel">
-            <form class="form-login col-12 col-lg-8">
-                <div class="icon">
-                    <img src="../../../../assets/ninjabot.png" alt="Icono de NinjaBot">
-                </div>
+            <form class="form-login col-12 col-lg-8" #formRegister>
+                <h1>Quiero registrarme</h1>
                 <hr>
-                <div class="form-group">
-                    <label for="email"><i class="fi-sr-users"></i> Cuenta</label>
-                    <input type="email" class="form-control" id="email">
+                <div class="row">
+                    <div class="form-group col-12">
+                        <label for="email"><i class="fi-sr-users"></i> Cuenta (email)</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="form-group col-lg-6 col-md-12">
+                        <label for="password"><i class="fi-sr-key"></i> Contraseña</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <div class="form-group col-lg-6 col-md-12">
+                        <label for="repassword"><i class="fi-sr-key"></i> Confirmar contraseña</label>
+                        <input type="password" class="form-control" id="repassword" required>
+                    </div>
+
+                    <div class="form-group col-lg-6 col-md-12">
+                        <label for="name"><i class="fi-sr-id-badge"></i> Nombres</label>
+                        <input type="text" class="form-control" id="text" required>
+                    </div>
+
+                    <div class="form-group col-lg-6 col-md-12">
+                        <label for="lastname"><i class="fi-sr-id-badge"></i> Apellidos</label>
+                        <input type="text" class="form-control" id="lastname" required>
+                    </div>
+
+                    <div class="form-group col-12">
+                        <label for="tel"><i class="fi-sr-smartphone"></i> Teléfono</label>
+                        <input type="tel" class="form-control" id="tel" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="password"><i class="fi-sr-key"></i> Contraseña</label><input type="password" class="form-control" id="password">
-                    <a href="forgot-password">¿Olvidaste tu contraseña?</a>
-                </div>
+
                 <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Mantener conexión</label>
+                    <input type="checkbox" class="form-check-input" id="cgs" required>
+                    <label class="form-check-label" for="cgs">Acepto las <a [routerLink]="['/legal/terminos-y-condiciones']">condiciones del servicio</a></label>
                 </div>
+
                 <hr>
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <div class="center">
-                            <button type="submit" class="btn btn-primary">Inicia sesión</button>
+                            <button type="submit" class="btn btn-primary">Registrarme</button>
                         </div>
                     </div>
     
                     <div class="col-sm-12 col-md-6">
                         <div class="center">
-                            <div class="btn btn-success" routerLink="register" [routerLink]="['/auth/register']">Crea tu cuenta</div>
+                            <div class="btn btn-success" routerLink="register" [routerLink]="['/auth/login']">Volver al login</div>
                         </div>
                     </div>
                 </div>

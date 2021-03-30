@@ -7,7 +7,7 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { AuthRoutingModule } from './auth-routing.module';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,8 +16,7 @@ import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     AuthRoutingModule,
     NgbModule,
-    NgbPaginationModule,
-    NgbAlertModule
+    FormsModule
   ]
 })
 export class AuthModule { }
