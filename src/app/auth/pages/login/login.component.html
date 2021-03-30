@@ -22,7 +22,7 @@
                             </span>
                           </div>
                     </div>
-                    <ngb-alert *ngIf="invalidPassword" class="error-form" [dismissible]="false">Formato de contraseña incorrecto, longitud incorrecta</ngb-alert>
+                    <ngb-alert *ngIf="invalidPassword" class="error-form" [dismissible]="false">Contraseña demasiado corta</ngb-alert>
                     <a [routerLink]="['/auth/forgot-password']">¿Olvidaste tu contraseña?</a>
                 </div>
                 <div class="form-group form-check">
@@ -39,7 +39,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <div class="center">
-                            <button type="submit" class="btn btn-primary">Inicia sesión</button>
+                            <button type="submit" class="btn btn-primary" [disabled]="invalidForm">Inicia sesión</button>
                         </div>
                     </div>
                 </div>
