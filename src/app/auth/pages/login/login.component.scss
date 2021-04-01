@@ -1,28 +1,29 @@
 .login-panel{
-    height: 100vh;
-    display: flex;
-    align-items: center;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 2rem;
 }
 
 .form-login{
-    padding: 10%;
-    margin: auto;
-    background: #fff;
-    box-shadow: 0 0 2px inset;
+        padding: 10%;
+        margin: auto;
+        background: #fff;
+        box-shadow: 0 0 2px inset;
 }
 
 .center{
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    width: 100%;
-    text-align: center;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        text-align: center;
 }
 
 .content{
-    width: calc(100vw - 15px);
-    background: #055;
+        width: calc(100vw - 15px);
+        background: #055;
 }
 
 .error-form{
-    margin-top: 1rem;
+        margin-top: 1rem;
 }

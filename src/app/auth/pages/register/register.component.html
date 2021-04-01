@@ -1,64 +1,64 @@
 <div class="content">
-    <div class="row">
-        <div class="col-lg-6 col-md-8 offset-lg-3 offset-md-2 register-panel">
-            <form class="form-register col-12 col-lg-8">
-                <h1>Quiero registrarme</h1>
-                <hr>
-                <div class="row">
-                    <div class="form-group col-12">
-                        <label for="email"><i class="fi-sr-users"></i> Cuenta (email)</label>
-                        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="account">
-                        <ngb-alert *ngIf="invalidAccount" class="error-form" [dismissible]="false">Formato de cuenta incorrecto, debe ser correo electrónico</ngb-alert>
-                    </div>
-                    <div class="form-group col-lg-6 col-md-12">
-                        <label for="password"><i class="fi-sr-key"></i> Contraseña</label>
-                        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password">
-                        <ngb-alert *ngIf="invalidPassword" class="error-form" [dismissible]="false">La longitud de tu contraseña debe ser de más de 8 caracteres</ngb-alert>
-                    </div>
-                    <div class="form-group col-lg-6 col-md-12">
-                        <label for="repassword"><i class="fi-sr-key"></i> Confirmar contraseña</label>
-                        <input type="password" class="form-control" id="repassword" name="repassword" [(ngModel)]="repassword">
-                        <ngb-alert *ngIf="invalidRepassword" class="error-form" [dismissible]="false">Las contraseñas no coinciden</ngb-alert>
-                    </div>
+        <div class="row">
+                <div class="col-lg-6 col-md-8 offset-lg-3 offset-md-2 register-panel">
+                        <form class="form-register col-12 col-lg-8" (submit)="send()">
+                                <h1>Quiero registrarme</h1>
+                                <hr>
+                                <div class="row">
+                                        <div class="form-group col-12">
+                                                <label for="email"><i class="fi-sr-users"></i> Cuenta (email)</label>
+                                                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="account" (blur)="validate('account')">
+                                                <ngb-alert *ngIf="invalidAccount" class="error-form" [dismissible]="false">Formato de cuenta incorrecto, debe ser correo electrónico</ngb-alert>
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                                <label for="password"><i class="fi-sr-key"></i> Contraseña</label>
+                                                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" (blur)="validate('password')">
+                                                <ngb-alert *ngIf="invalidPassword" class="error-form" [dismissible]="false">La longitud de tu contraseña debe ser de más de 8 caracteres</ngb-alert>
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                                <label for="repassword"><i class="fi-sr-key"></i> Confirmar contraseña</label>
+                                                <input type="password" class="form-control" id="repassword" name="repassword" [(ngModel)]="repassword" (blur)="validate('repassword')">
+                                                <ngb-alert *ngIf="invalidRepassword" class="error-form" [dismissible]="false">Las contraseñas no coinciden</ngb-alert>
+                                        </div>
 
-                    <div class="form-group col-lg-6 col-md-12">
-                        <label for="name"><i class="fi-sr-id-badge"></i> Nombres</label>
-                        <input type="text" class="form-control" id="text" name="names" [(ngModel)]="names">
-                        <ngb-alert *ngIf="invalidNames" class="error-form" [dismissible]="false">Campo incompleto</ngb-alert>
-                    </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                                <label for="name"><i class="fi-sr-id-badge"></i> Nombres</label>
+                                                <input type="text" class="form-control" id="names" name="names" [(ngModel)]="names" (blur)="validate('names')">
+                                                <ngb-alert *ngIf="invalidNames" class="error-form" [dismissible]="false">Campo incompleto</ngb-alert>
+                                        </div>
 
-                    <div class="form-group col-lg-6 col-md-12">
-                        <label for="lastname"><i class="fi-sr-id-badge"></i> Apellidos</label>
-                        <input type="text" class="form-control" id="lastname" name="lastnames" [(ngModel)]="lastnames">
-                        <ngb-alert *ngIf="invalidLastnames" class="error-form" [dismissible]="false">Campo incompleto</ngb-alert>
-                    </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                                <label for="lastname"><i class="fi-sr-id-badge"></i> Apellidos</label>
+                                                <input type="text" class="form-control" id="lastnames" name="lastnames" [(ngModel)]="lastnames" (blur)="validate('lastnames')">
+                                                <ngb-alert *ngIf="invalidLastnames" class="error-form" [dismissible]="false">Campo incompleto</ngb-alert>
+                                        </div>
 
-                    <div class="form-group col-12">
-                        <label for="tel"><i class="fi-sr-smartphone"></i> Teléfono</label>
-                        <input type="tel" class="form-control" id="tel" name="phone" [(ngModel)]="phone">
-                        <ngb-alert *ngIf="invalidPhone" class="error-form" [dismissible]="false">Número telefónico inexistente</ngb-alert>
-                    </div>
+                                        <div class="form-group col-12">
+                                                <label for="tel"><i class="fi-sr-smartphone"></i> Teléfono</label>
+                                                <input type="tel" class="form-control" id="tel" name="phone" [(ngModel)]="phone" (blur)="validate('phone')">
+                                                <ngb-alert *ngIf="invalidPhone" class="error-form" [dismissible]="false">Número telefónico inexistente</ngb-alert>
+                                        </div>
+                                </div>
+
+                                <div class="form-group form-check">
+                                        <input type="checkbox" class="form-check-input" id="cgs" name="tyc" [checked]="tyc" (change)="switchTyC()">
+                                        <label class="form-check-label" for="cgs">Acepto las <a [routerLink]="['/legal/terminos-y-condiciones']">condiciones del servicio</a></label>
+                                </div>
+
+                                <hr>
+                                <div class="row">
+                                        <div class="col-sm-12 col-md-6">
+                                                <div class="center">
+                                                        <div class="btn btn-success" routerLink="register" [routerLink]="['/auth/login']">Volver al login</div>
+                                                </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                                <div class="center">
+                                                        <button type="submit" class="btn btn-primary" [disabled]="invalidForm">Registrarme</button>
+                                                </div>
+                                        </div>
+                                </div>
+                        </form>
                 </div>
-
-                <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="cgs" name="tyc" [checked]="tyc" (change)="tyc = !tyc">
-                    <label class="form-check-label" for="cgs">Acepto las <a [routerLink]="['/legal/terminos-y-condiciones']">condiciones del servicio</a></label>
-                </div>
-
-                <hr>
-                <div class="row">
-                    <div class="col-sm-12 col-md-6">
-                        <div class="center">
-                            <div class="btn btn-success" routerLink="register" [routerLink]="['/auth/login']">Volver al login</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6">
-                        <div class="center">
-                            <button type="submit" class="btn btn-primary" [disabled]="invalidForm">Registrarme</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
         </div>
-    </div>
 </div>
