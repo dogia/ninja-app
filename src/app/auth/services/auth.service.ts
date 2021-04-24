@@ -11,14 +11,13 @@ class AuthService {
     private nombres = '';
     private apellidos = '';
     private telefono = '';
-
-    private authorization = '';
+    private auth = 'none';
 
     constructor() {
 
     }
 
-    getUserData(value = ''){
+    getUserData(value = ''): number | string | boolean{
         switch(value){
             case 'id': return this.id;
             case 'email': return this.email;
@@ -27,18 +26,52 @@ class AuthService {
             case 'telefono': return this.telefono;
             default:
                 console.warn('El metodo get de AuthService ha sido llamado sin argumentos');
-                return null;
+                return false;
         }
     }
 
-    request(method: string, url: string, body: any = {}){
+    setUserData(cuenta: any, auth: string, keepAlive: boolean = false){
+        this.id = parseInt(cuenta.id);
+        this.email = cuenta.email;
+        this.nombres = cuenta.nombres;
+        this.apellidos = cuenta.apellidos;
+        this.telefono = cuenta.telefono;
+        this.auth = auth;
+
+        if (keepAlive){
+            localStorage.setItem('login', JSON.stringify({ cuenta: cuenta, auth: auth }));
+        }
+    }
+
+    loadKeepAlive(){
+        const loginString = localStorage.getItem('login');
+        if(loginString !== null){
+            const login = JSON.parse(loginString);
+            this.setUserData(login.cuenta, login.auth, true);
+            return true;
+        }else return false;
+    }
+
+    logout(){
+        localStorage.removeItem('login');
+        this.id = -1;
+        this.email = '';
+        this.nombres = '';
+        this.apellidos = '';
+        this.telefono = '';
+        this.auth = 'none';
+    }
+
+    async request(method: string, url: string, body: any){
         const headers = new Headers();
-        headers.append('Auth', this.authorization);
-        const mode = 'cors' as RequestMode;
-        const cache = 'default' as RequestCache;
-        const init = { method, headers, mode, cache, body: JSON.stringify(body) };
+        headers.append('Accept', 'application/json');
+        headers.append('User', `${this.id}`);
+        headers.append('Auth', this.auth);
+        const init = { method: method, headers: headers, body: JSON.stringify(body) };
         const request = new Request(url, init);
-        return fetch(request);
+        let result = null;
+        await fetch(request).then(response => result = response);
+        return result;
     }
 }
 

@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { environment as env } from 'src/environments/environment';
 import { authService } from '../../services/auth.service';
+
+import { NgxSpinnerService } from "ngx-spinner";
+import { ToastService } from 'src/app/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-register',
@@ -8,6 +12,10 @@ import { authService } from '../../services/auth.service';
     styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+    public messages = {
+        title: '',
+        body: ''
+    };
     public invalidAccount = false;
     public invalidPassword = false;
     public invalidRepassword = false;
@@ -25,29 +33,56 @@ export class RegisterComponent implements OnInit {
     public phone = '';
     public tyc = false;
 
-    constructor() { }
+    constructor(private spinner: NgxSpinnerService, private toast: ToastService, private router: Router) { }
 
     ngOnInit(): void {
     }
 
-    async send(){
+    async send(success: TemplateRef<any>, error: TemplateRef<any>){
+        this.spinner.show();
         if(!this.validate()) {return;}
         const form =
             {
-                account: this.account,
+                email: this.account,
                 password: this.password,
-                names: this.names,
-                lastnames: this.lastnames,
-                phone: this.phone
+                nombres: this.names,
+                apellidos: this.lastnames,
+                telefono: this.phone
             };
+
         const auth = authService();
-        const request = auth.request('POST', env.router.auth.register, form);
+        const request = auth.request('POST', `${env.root}/${env.router.auth.register}`, form);
         request.then(
             async (response: any) => {
                 const json = await response.json();
-                console.log(json);
+                for(const i in json.messages){
+                    this.messages.title = i;
+                    this.messages.body = json.messages[i];
+                    json.code == 200 ? this.toast.show(success,{ classname: 'bg-success text-light', delay: 50000 }) : this.toast.show(error,{ classname: 'bg-danger text-light', delay: 5000 });
+                }
+
+                if (json.code == 200){
+                    this.spinner.show();
+                    // Reset form
+                    this.account = '';
+                    this.password = '';
+                    this.repassword = '';
+                    this.names = '';
+                    this.lastnames = '';
+                    this.phone = '';
+                    this.tyc = false;
+
+                    // Iniciar sesión e ir al inicio
+                    // TODO
+                    //this.router.navigate()
+                }
+            },
+            ()=>{
+                this.messages.title = 'Error';
+                this.messages.body = 'No se ha podido establecer conexión con el servidor';
+                this.toast.show(error,{ classname: 'bg-danger text-light', delay: 5000 });
             }
-        );
+        ).finally(() => this.spinner.hide());
     }
 
     switchTyC(){

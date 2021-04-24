@@ -2,13 +2,16 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-const root = 'http://server.ninjabot.com.co';
 export const environment = {
     production: false,
-
+    root: 'http://server.ninjabot.com.co',
     router:{
         auth:{
-            register: `${root}/auth/register`
+            register: `auth/register`,
+            login: `auth/login`
+        },
+        ninjabot:{
+            dashboard: `ninjabot/dashboard`
         }
     }
 };

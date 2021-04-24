@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastService } from 'src/app/toast.service';
+
+import { environment as env } from 'src/environments/environment';
+import { authService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-login',
@@ -15,9 +21,40 @@ export class LoginComponent implements OnInit {
     public showPassword = false;
     public keepAlive = false;
 
-    constructor() { }
+    public messages = {
+        title: '',
+        body: ''
+    }
 
-    ngOnInit(): void {
+    constructor(private spinner: NgxSpinnerService, private toast: ToastService, private router: Router) { }
+
+    ngOnInit(): void { }
+
+    login(success: TemplateRef<any>, error: TemplateRef<any>){
+        this.spinner.show();
+        const auth = authService();
+        const form = { user: this.account, password: this.password };
+        const request = auth.request('POST', `${env.root}/${env.router.auth.login}`, form);
+        request.then(
+            async (response: any) => {
+                const json = await response.json();
+                for(const i in json.messages){
+                    this.messages.title = i;
+                    this.messages.body = json.messages[i];
+                    json.code == 200 ? this.toast.show(success,{ classname: 'bg-success text-light', delay: 50000 }) : this.toast.show(error,{ classname: 'bg-danger text-light', delay: 5000 });
+                }
+                
+                if(json.code == 200){
+                    auth.setUserData(json.data.cuenta, json.data.auth, this.keepAlive);
+                    this.router.navigate([env.router.ninjabot.dashboard]);
+                }
+            },
+            () => {
+                this.messages.title = 'Error';
+                this.messages.body = 'No se ha podido establecer conexión con el servidor';
+                this.toast.show(error,{ classname: 'bg-danger text-light', delay: 5000 });
+            }
+        ).finally(()=>this.spinner.hide());
     }
 
     validate(element: string = '') {

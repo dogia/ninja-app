@@ -1,9 +1,19 @@
 <div class="content">
+        <ng-template #success>
+                <b>{{messages.title | titlecase}}</b> <br>
+                <i class="fi-sr-rocket" style="font-size: large;"></i> {{messages.body}}
+        </ng-template>
+        
+        <ng-template #error>
+                <b>{{messages.title | titlecase}}</b> <br>
+                <i class="fi-sr-flame" style="font-size: large;"></i> {{messages.body}}
+        </ng-template>
+
         <div class="row">
                 <div class="col-lg-6 col-md-8 offset-lg-3 offset-md-2 login-panel">
-                        <form class="form-login col-12 col-lg-8">
+                        <form class="form-login col-12 col-lg-8" (submit)="login(success, error)">
                                 <div class="icon">
-                                        <img src="../../../../assets/ninjabot.png" alt="Icono de NinjaBot">
+                                        <img src="../../../../assets/favicon/ninjabot_full_black.svg" width="280" alt="Icono de NinjaBot">
                                 </div>
                                 <hr>
                                 <div class="form-group">
